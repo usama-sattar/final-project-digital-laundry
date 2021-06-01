@@ -33,7 +33,7 @@ export default function App({navigation}) {
       <ProductConsumer>
         {(value) => {
           return (
-            value.isLogged ? 
+
             <Tab.Navigator
               screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
@@ -53,7 +53,7 @@ export default function App({navigation}) {
                 component={Shop}
                 options={{ tabBarBadge: 1 }}
               />
-            </Tab.Navigator>:null
+            </Tab.Navigator>
           );
         }}
       </ProductConsumer>
@@ -64,7 +64,7 @@ export default function App({navigation}) {
       <ProductConsumer>
         {(value) => {
           return (
-            value.isLogged ? 
+           
             <Tab.Navigator
               screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
@@ -87,9 +87,7 @@ export default function App({navigation}) {
                   >
               <Tab.Screen name="MainScreen" component={MainScreen} options={{title:'Home'}}/>
               <Tab.Screen name="EditCustomer" component={EditCustomer} options={{title:'Edit'}}/>
-            
-              
-            </Tab.Navigator>:null
+            </Tab.Navigator>
           );
         }}
       </ProductConsumer>
@@ -99,7 +97,7 @@ export default function App({navigation}) {
   return (
     <ProductProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="VendorScreen">
+        <Stack.Navigator initialRouteName="Splash">
           <Stack.Screen
             name="Splash"
             component={Splash}

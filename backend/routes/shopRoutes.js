@@ -29,10 +29,10 @@ router.delete('/delete/:id', (req,res)=>{
 })
 
 router.get('/find/:name', (req,res)=>{
-    console.log("find called")
-    Shop.find({name: req.params.name} )
-    .then((item)=> res.send(item))
+    Shop.find({name: req.params.name})
+    .then((shop)=> res.send(shop))
     .catch((err)=> console.log(err))
     
 })
+
 module.exports=router

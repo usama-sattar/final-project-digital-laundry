@@ -2,21 +2,26 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Avatar, AirbnbRating } from "react-native-elements";
 
-function Searched({ route }) {
+function Searched({ route }, props) {
   return (
     <View style={styles.container}>
       {console.log(route.params.Shops)}
       {route.params.Shops.length > 0 ? (
         <View>
-          <Text>Searched:</Text>
+          <Text style={{ color: "purple", textAlign: "center", fontSize: 25 }}>
+            Searched: {route.params.word}
+          </Text>
           {route.params.Shops.map((shop, index) => {
             return (
               <View style={styles.innercontainer} key={index}>
                 {console.log(shop.name)}
                 <Avatar
                   size="large"
-                  overlayContainerStyle={{ backgroundColor: "lightblue" }}
-                  title={"j"}
+                  overlayContainerStyle={{
+                    backgroundColor: "#3873af",
+                    borderRadius: 50,
+                  }}
+                  title={"n"}
                   onPress={() => console.log("Works!")}
                   activeOpacity={0.7}
                 />
@@ -25,11 +30,9 @@ function Searched({ route }) {
               </View>
             );
           })}
-
-          <AirbnbRating defaultRating={5} size={15} showRating={false} />
         </View>
       ) : (
-        <Text>Else </Text>
+        <Text>Nothing to Show</Text>
       )}
     </View>
   );

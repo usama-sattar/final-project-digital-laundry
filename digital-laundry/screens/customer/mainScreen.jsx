@@ -9,23 +9,25 @@ function MainScreen({ navigation }) {
   const [shops, setShops] = useState([]);
   const [search, setSearch] = useState("");
   const [searchShops, setSearchShops] = useState([{}]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("http://192.168.0.114:5000/shop/")
-      .then((res) => setShops(res.data))
+      .then((res) => setShops(res.data), setLoading(false))
       .catch((err) => console.log(err));
-  }, []);
+  });
+
   const goSearch = () => {
     axios
       .get(`http://192.168.0.114:5000/shop/find/${search}`)
-      .then((res) => {
-        console.log(res.data), setSearchShops(res.data);
-      })
+      .then((res) => setSearchShops(res.data))
       .catch((err) => console.log(err));
-    navigation.navigate("SearchScreen", { Shops: searchShops });
+    navigation.navigate("SearchScreen", { Shops: searchShops, word: search });
   };
-  return (
+
+  return loading === false ? (
     <View style={styles.conatiner}>
       <View>
         <SearchBar
@@ -57,6 +59,8 @@ function MainScreen({ navigation }) {
           : null}
       </View>
     </View>
+  ) : (
+    <Text>Loading</Text>
   );
 }
 const styles = StyleSheet.create({

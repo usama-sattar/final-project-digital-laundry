@@ -9,7 +9,6 @@ const Rider = require("../models/riderModel");
 router.post("/login/phone", (req, res) => {
   if (req.body.userType === "customer") {
     Customer.findOne({ phone: req.body.number }).then((user) => {
-      
       if (!user) {
         console.log("not found")
         res.send({ message: "customer does not registered" });

@@ -12,7 +12,7 @@
   cursor: pointer;
 }
 .nav-bar {
-  background-color: #2e4763;
+  background-color: #04013c;
   border-bottom: 1px solid #fff;
   justify-content: flex-start;
   align-items: center;
@@ -23,7 +23,7 @@
   padding-left: 20px;
 }
 .nav-menu {
-  background-color: #2e4763;
+  background-color: #04013c;
   width: 250px;
   height: 100%;
   display: flex;

@@ -15,7 +15,7 @@ import axios from "axios";
 function EditCustomer({ navigation }) {
   useEffect(() => {
     getStorage();
-  });
+  }, []);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState(0);
 
@@ -56,8 +56,16 @@ function EditCustomer({ navigation }) {
                 source={require("../../assets/avatar-edit.jpg")}
                 style={{ width: 200, height: 200, borderRadius: 200 }}
               />
-              <TextInput value={name} style={styles.input} />
-              <TextInput value={phone.toString()} style={styles.input} />
+              <TextInput
+                value={name}
+                onChangeText={(text) => setName(text)}
+                style={styles.input}
+              />
+              <TextInput
+                value={phone.toString()}
+                onChangeText={(text) => setPhone(text)}
+                style={styles.input}
+              />
               <View
                 style={{
                   display: "flex",

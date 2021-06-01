@@ -29,12 +29,12 @@ function Login(props) {
       .catch((err) => console.log(err));
   };
 
-  const sendCode = () => {
+  const sendCode = async () => {
     axios
       .post("http://192.168.0.114:5000/verify/login/code", {
         number: phone,
         code: code,
-        userType: userType
+        userType: userType,
       })
       .then((res) => {
         console.log(res.data);

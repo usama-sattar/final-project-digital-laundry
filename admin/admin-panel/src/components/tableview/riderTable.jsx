@@ -8,23 +8,6 @@ function RiderTabelView({ rider, key }) {
   };
   return (
     <div>
-      <tbody>
-        <tr>
-          <td>{rider._id}</td>
-          <td>{rider.name}</td>
-          <td>{rider.phone}</td>
-          <td>{rider.cnic}</td>
-          <td>{rider.license}</td>
-          <td>
-            <i
-              className="fas fa-trash"
-              style={{ color: "red" }}
-              onClick={() => deleteRider(rider._id)}
-            ></i>
-          </td>
-        </tr>
-      </tbody>
-
       <div className="row">
         <div className="col-2">{rider._id}</div>
         <div className="col-2">{rider.name}</div>
