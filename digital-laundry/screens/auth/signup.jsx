@@ -12,6 +12,7 @@ import {
   Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API } from "../../global/constants";
 
 function SignUp(props) {
   const [userType, setUserType] = useState("customer");
@@ -26,7 +27,7 @@ function SignUp(props) {
   const sendCode = () => {
     setMessage("");
     axios
-      .post("http://192.168.0.114:5000/verify/phone", {
+      .post(`${API}/verify/phone`, {
         number: phone,
         userType: userType,
       })
@@ -38,7 +39,7 @@ function SignUp(props) {
   };
   const submitData = async () => {
     axios
-      .post("http://192.168.0.114:5000/verify/code", {
+      .post(`${API}/verify/code`, {
         number: phone,
         code: otp,
         name: name,

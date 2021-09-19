@@ -8,13 +8,13 @@ import {
   TextInput,
 } from "react-native";
 import { ProductConsumer } from "../../context";
-import { Avatar, AccessoryProps } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { API } from "../../global/constants";
 
 function EditCustomer({ navigation }) {
-  useEffect(() => {
-    getStorage();
+  useEffect(async () => {
+    await getStorage();
   }, []);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState(0);
@@ -24,7 +24,7 @@ function EditCustomer({ navigation }) {
     const j_id = JSON.parse(id);
     console.log(j_id);
     axios
-      .get(`http://192.168.0.114:5000/customers/current/${j_id}`)
+      .get(`${API}/customers/current/${j_id}`)
       .then((res) => {
         setName(res.data.name);
         setPhone(res.data.phone);
@@ -35,7 +35,7 @@ function EditCustomer({ navigation }) {
     const id = await AsyncStorage.getItem("customerId");
     if (id) {
       axios
-        .post(`http://192.168.0.114:5000/customers/update/${id}`, {
+        .post(`${API}/customers/update/${id}`, {
           name: name,
           phone: phone,
         })

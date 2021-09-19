@@ -2,16 +2,17 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Value } from "react-native-reanimated";
 import { ProductConsumer } from "../context";
 
 export default function ShopView({ detail }, props) {
   return (
     <ProductConsumer>
       {(value) => {
-        let found = value.services.some((el) => el.title === detail.title);
         return (
           <View style={styles.container}>
+            {value.shopResponse !== "" ? (
+              <Text>{value.shopResponse.error}</Text>
+            ) : null}
             <View style={styles.imageView}>
               <Image style={styles.images} source={detail.path} />
               <Text style={styles.title}>{detail.title}</Text>

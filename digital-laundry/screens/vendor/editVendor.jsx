@@ -10,6 +10,7 @@ import {
 import { ProductConsumer } from "../../context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { API } from "../../global/constants";
 
 function EditVendor({ navigation }) {
   useEffect(() => {
@@ -22,7 +23,7 @@ function EditVendor({ navigation }) {
     const id = await AsyncStorage.getItem("customerId");
 
     axios
-      .get(`http://192.168.0.114:5000/customers/current/${id}`)
+      .get(`${API}/customers/current/${id}`)
       .then((res) => {
         setName(res.data.name);
         setPhone(res.data.phone);
@@ -33,7 +34,7 @@ function EditVendor({ navigation }) {
     const id = await AsyncStorage.getItem("customerId");
     if (id) {
       axios
-        .post(`http://192.168.0.114:5000/customers/update/${id}`, {
+        .post(`${API}/customers/update/${id}`, {
           name: name,
           phone: phone,
         })

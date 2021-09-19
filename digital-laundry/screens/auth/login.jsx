@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API } from "../../global/constants";
 
 function Login(props) {
   const [userType, setuserType] = useState(null);
@@ -19,7 +20,7 @@ function Login(props) {
 
   const sendPhone = () => {
     axios
-      .post("http://192.168.0.114:5000/verify/login/phone", {
+      .post(`${API}/verify/login/phone`, {
         number: phone,
         userType: userType,
       })
@@ -31,7 +32,7 @@ function Login(props) {
 
   const sendCode = async () => {
     axios
-      .post("http://192.168.0.114:5000/verify/login/code", {
+      .post(`${API}/verify/login/code`, {
         number: phone,
         code: code,
         userType: userType,

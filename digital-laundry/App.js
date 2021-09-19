@@ -1,39 +1,38 @@
-import "react-native-gesture-handler";
+//import "react-native-gesture-handler";
 import React from "react";
-import {NavigationActions, StackActions} from 'react-navigation'
-import { NavigationContainer } from "@react-navigation/native";
+import {Text, View} from 'react-native'
+import { Component } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import "react-native-gesture-handler";
-import { ProductProvider } from "./context";
-import Splash from "./screens/auth/splash";
+import { ProductProvider, ProductConsumer} from "./context";
+import { Ionicons } from "@expo/vector-icons";
+ import Splash from "./screens/auth/splash";
 import Login from "./screens/auth/login";
 import SignUp from "./screens/auth/signup";
-import Shop from "./screens/vendor/shop";
-import MainScreen from "./screens/customer/mainScreen";
-import RiderMain from "./screens/rider/riderMain";
-import VendorMain from "./screens/vendor/vendorMain";
-import EditCustomer from "./screens/customer/editcustomer";
+import Shop from "./screens/vendor/CreateShop";
+import MainScreen from "./screens/customer/MainScreen";
+import VendorMain from "./screens/vendor/VendorMain";
+import EditCustomer from "./screens/customer/EditScreen";
+import Searched from "./screens/customer/SearchScreen";
+import SelectScreen from "./screens/customer/SelectScreen";
+import CartContextProvider from "./context/cart";
+import Cart from "./screens/customer/CartScreen";
+import Checkout from "./screens/customer/CheckoutScreen";
+import CardPayment from "./screens/customer/CardPayment";
+import OrdersScreen from "./screens/customer/OrdersScreen";
 
-import { Ionicons } from "@expo/vector-icons";
-import {Button} from 'react-native'
-import { ProductConsumer } from "./context";
-import Searched from "./screens/customer/searched";
-
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-export default function App({navigation}) {
-
-  
-  const VendorTabNavigator = ({ navigation }) => {
+export default function App() {
+  const VendorTabNavigator = () => {
     return (
       <ProductConsumer>
         {(value) => {
           return (
-
             <Tab.Navigator
               screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
@@ -59,7 +58,8 @@ export default function App({navigation}) {
       </ProductConsumer>
     );
   };
-  const CustomerTabNavigator = ({ navigation }) => {
+
+  const CustomerTabNavigator = () => {
     return (
       <ProductConsumer>
         {(value) => {
@@ -75,7 +75,9 @@ export default function App({navigation}) {
                   if (route.name === "EditCustomer") {
                     iconName = focused ? "create" : "create-outline";
                   } 
-                  
+                  if (route.name === "OrdersScreen") {
+                    iconName = focused ? "card" : "card-outline";
+                  } 
                   return <Ionicons name={iconName} size={size} color={color} />;
                 },
               })}
@@ -87,6 +89,7 @@ export default function App({navigation}) {
                   >
               <Tab.Screen name="MainScreen" component={MainScreen} options={{title:'Home'}}/>
               <Tab.Screen name="EditCustomer" component={EditCustomer} options={{title:'Edit'}}/>
+              <Tab.Screen name="OrdersScreen" component={OrdersScreen} options={{title:'My Orders'}}/>
             </Tab.Navigator>
           );
         }}
@@ -95,8 +98,9 @@ export default function App({navigation}) {
   };
 
   return (
+    <NavigationContainer>
     <ProductProvider>
-      <NavigationContainer>
+      <CartContextProvider>
         <Stack.Navigator initialRouteName="Splash">
           <Stack.Screen
             name="Splash"
@@ -107,7 +111,7 @@ export default function App({navigation}) {
             name="SignUp"
             component={SignUp}
             options={{ headerLeft: () => null,headerStyle: {
-              backgroundColor: '#6baed8',
+              backgroundColor: '#3397e8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -115,7 +119,7 @@ export default function App({navigation}) {
             } }}
           />
           <Stack.Screen name="Login" component={Login} options={{headerLeft: ()=> null,headerStyle: {
-              backgroundColor: '#6baed8',
+              backgroundColor: '#3397e8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -124,8 +128,8 @@ export default function App({navigation}) {
           <Stack.Screen
             name="MainScreen"
             component={CustomerTabNavigator}
-            options={{ title: "Customer ", headerLeft: () => null, headerStyle: {
-              backgroundColor: '#6baed8',
+            options={{ title: "Welcome", headerLeft: () => null, headerStyle: {
+              backgroundColor: '#3397e8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -137,7 +141,7 @@ export default function App({navigation}) {
             component={VendorTabNavigator}
             options={{ title: "Vendor", headerLeft: () => null,
             headerStyle: {
-              backgroundColor: '#6baed8',
+              backgroundColor: '#3397e8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -150,7 +154,7 @@ export default function App({navigation}) {
             name="RiderScreen"
             component={RiderMain}
             options={{ title: "Rider", headerLeft: () => null,headerStyle: {
-              backgroundColor: '#6baed8',
+              backgroundColor: '#3397e8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -161,7 +165,52 @@ export default function App({navigation}) {
             name="SearchScreen"
             component={Searched}
             options={{ title: "Searched Items",headerStyle: {
-              backgroundColor: '#6baed8',
+              backgroundColor: '#3397e8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            } }}
+          />
+          
+          <Stack.Screen
+            name="SelectedVendorScreen"
+            component={SelectScreen}
+            options={{ title: "Place Order",headerStyle: {
+              backgroundColor: '#3397e8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            } }}
+          />
+           <Stack.Screen
+            name="CartScreen"
+            component={Cart}
+            options={{ title: "Cart",headerStyle: {
+              backgroundColor: '#3397e8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            } }}
+          />
+          <Stack.Screen
+            name="CheckoutScreen"
+            component={Checkout}
+            options={{ title: "Checkout",headerStyle: {
+              backgroundColor: '#3397e8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            } }}
+          />
+          <Stack.Screen
+            name="CardScreen"
+            component={CardPayment}
+            options={{ title: "Payment",headerStyle: {
+              backgroundColor: '#3397e8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -169,7 +218,9 @@ export default function App({navigation}) {
             } }}
           />
         </Stack.Navigator>
-      </NavigationContainer>
+      
+      </CartContextProvider>
     </ProductProvider>
+    </NavigationContainer>
   );
 }

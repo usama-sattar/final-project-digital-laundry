@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const ProductContext = React.createContext();
+import {API} from './global/constants'
 
 class ProductProvider extends Component {
   state = {
@@ -9,20 +10,9 @@ class ProductProvider extends Component {
     services: [],
     vendorToken: "",
     isLogged: true,
-    customerData: []
+    customerData: [],
+    shopResponse: ""
   };
-  // checkShop = () => {
-  //   axios
-  //     .post("http://192.168.0.109:5000/shop/create", {
-  //       name: this.state.shopName,
-  //       vendorId: this.state.vendorToken,
-  //       services: this.state.services,
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
   setShopName = (e) => {
     this.setState({
       shopName: e,
@@ -60,13 +50,13 @@ class ProductProvider extends Component {
   createShop = async () => {
     await this.getStorage();
     axios
-      .post("http://192.168.0.114:5000/shop/create", {
+      .post(`${API}/shop/create`, {
         name: this.state.shopName,
         vendorId: this.state.vendorToken,
         services: this.state.services,
       })
       .then((res) => {
-        console.log(res.data);
+        this.setState({shopResponse: res.data});
       })
       .catch((err) => console.log(err));
   };
@@ -87,7 +77,8 @@ class ProductProvider extends Component {
           isLogged: this.state.isLogged,
           Logout: this.Logout,
           removeService:this.removeService,
-          services: this.state.services
+          services: this.state.services,
+          shopResponse: this.state.shopResponse
         }}
       >
         {this.props.children}

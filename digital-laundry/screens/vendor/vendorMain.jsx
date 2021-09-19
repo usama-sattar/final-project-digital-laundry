@@ -1,8 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ProductConsumer } from "../../context";
-import color from "color";
 
 function VendorMain({ navigation }) {
   return (

@@ -1,51 +1,11 @@
 import React, { useState } from "react";
 import { ScrollView, View, Text, TouchableOpacity } from "react-native";
-import ShopView from "../../components/shopView";
+import ShopView from "../../components/ShopView";
 import { TextInput, StyleSheet } from "react-native";
 import { ProductConsumer } from "../../context";
+import { shopDetails } from "../../global/constants";
+
 function Shop() {
-  const shopDetails = [
-    {
-      title: "shirt",
-      path: require("../../assets/T-shirt.svg"),
-      price: 15,
-    },
-    {
-      title: "pant",
-      path: require("../../assets/pant.svg"),
-      price: 20,
-    },
-    {
-      title: "jacket",
-      path: require("../../assets/Jacket.svg"),
-      price: 50,
-    },
-    {
-      title: "coat",
-      path: require("../../assets/jumper.svg"),
-      price: 100,
-    },
-    {
-      title: "trouser",
-      path: require("../../assets/trouser.svg"),
-      price: 25,
-    },
-    {
-      title: "shoes",
-      path: require("../../assets/shoe.png"),
-      price: 100,
-    },
-    {
-      title: "jumper",
-      path: require("../../assets/jumper.png"),
-      price: 60,
-    },
-    {
-      title: "ironing",
-      path: require("../../assets/iron.png"),
-      price: 20,
-    },
-  ];
   return (
     <ProductConsumer>
       {(value) => {
