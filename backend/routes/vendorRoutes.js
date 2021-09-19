@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router();
-
 const Vendor= require('../models/vendorModel')
 
 router.get('/total', (req,res)=>{

@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Customer = require("../models/customerModel");
+const stripe = require("stripe")(process.env.SECRET_KEY);
+const { v4: uuidv4 } = require('uuid')
 
 router.get("/total", (req, res) => {
   Customer.find()
@@ -33,5 +35,46 @@ router.post("/update/:id", (req, res) => {
     }
   );
 });
+router.post("/create-payment",async (req, res) => {
+  const { price, } = req.body;
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: price*100,
+    currency:'usd',
+    payment_method_types: ['card'],
+  })
+    const clientSecret = await paymentIntent.client_secret
+    try{
+      res.send(clientSecret)
+    }
+    catch(err){
+      res.send(`error: ${err}`)
+    }
+});
+
+router.post("/order",async (req, res) => {
+  const { customerId,name,email,address,contact,cart,total } = req.body;
+  const orderRecord = await new Order({
+    customerId,name,email,address,contact,cart,total
+  })
+  const result = orderRecord.save()
+  try{
+      res.send(result)
+  }
+  catch(err){
+     res.send(`error: ${err}`)
+  }
+});
+
+router.get("/orders/:id",async (req, res) => {
+  const {id} = req.params;
+  const ordersRecord = await Order.find({customerId: id})
+  try{
+      res.send(ordersRecord)
+  }
+  catch(err){
+     res.send(`error: ${err}`)
+  }
+});
+
 
 module.exports = router;
