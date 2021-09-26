@@ -4,6 +4,8 @@ const Schema = mongoose.Schema
 const ShopSchema = new Schema({
     name: {type: String},
     vendor: {type: mongoose.Schema.Types.ObjectId , ref: 'Vendor'},
+    address: {type: String},
+    account: {type:String},
     services: [{}]
 })
 

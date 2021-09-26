@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Customer = require("../models/customerModel");
+const Order = require('../models/orderModel')
+const AppRating = require('../models/appRating')
 const stripe = require("stripe")(process.env.SECRET_KEY);
-const { v4: uuidv4 } = require('uuid')
 
 router.get("/total", (req, res) => {
   Customer.find()
@@ -36,7 +37,7 @@ router.post("/update/:id", (req, res) => {
   );
 });
 router.post("/create-payment",async (req, res) => {
-  const { price, } = req.body;
+  const { price } = req.body;
   const paymentIntent = await stripe.paymentIntents.create({
     amount: price*100,
     currency:'usd',
@@ -49,6 +50,31 @@ router.post("/create-payment",async (req, res) => {
     catch(err){
       res.send(`error: ${err}`)
     }
+});
+
+router.post("/rating/:id",async (req, res) => {
+  const { rating } = req.body;
+  const ratingRecord = await new AppRating({
+    user: req.params.id,
+    rating: rating
+  })
+  const result = ratingRecord.save()
+  try{
+      res.send(result)
+  }
+  catch(err){
+     res.send(`error: ${err}`)
+  }
+});
+
+router.get("/rating/:id",async (req, res) => {
+  const result = await AppRating.findById(req.params.id)
+  try{
+      res.send(result)
+  }
+  catch(err){
+     res.send(`error: ${err}`)
+  }
 });
 
 router.post("/order",async (req, res) => {
@@ -66,8 +92,7 @@ router.post("/order",async (req, res) => {
 });
 
 router.get("/orders/:id",async (req, res) => {
-  const {id} = req.params;
-  const ordersRecord = await Order.find({customerId: id})
+  const ordersRecord = await Order.find({customerId: req.params.id})
   try{
       res.send(ordersRecord)
   }

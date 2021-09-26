@@ -12,6 +12,8 @@ router.post("/create", (req, res) => {
     if (!result) {
       const shop = new Shop({
         name: req.body.name,
+        address: req.body.address,
+        account: req.body.account,
         vendor: req.body.vendorId,
         services: req.body.services,
       });
@@ -35,15 +37,28 @@ router.delete("/delete/:id", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/find/:name", (req, res) => {
+// router.get("/find/:name", async(req, res) => {
+//   const data = await Shop.find({
+//     name: { $regex: req.params.name, $options: "i" },
+//   });
+//   try {
+//     res.send(data);
+//   } catch (err) {
+//     res.status(400).send(err);
+//   }
+// });
+router.get("/find/:name", async(req, res) => {
   const data = await Shop.find({
-    name: { $regex: req.params.name, $options: "i" },
+    name: req.params.name ,
   });
+  console.log(data)
   try {
-    res.send(data);
+    if(data.length > 0) {res.send(true);}
+    else {res.send(false)}
   } catch (err) {
     res.status(400).send(err);
   }
 });
+
 
 module.exports = router;

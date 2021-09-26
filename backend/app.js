@@ -5,7 +5,7 @@ const customerRoutes = require('./routes/customerRoutes')
 const vendorRoutes = require('./routes/vendorRoutes')
 const riderRoutes = require('./routes/riderRoutes')
 const shopRoutes = require('./routes/shopRoutes')
-
+const ratingRoutes = require('./models/appRating')
 
 const app = express()
 app.use(express.json());
@@ -22,6 +22,7 @@ connection.once("open",()=>{
     console.log("database established");
 })
 
+app.use('/app', ratingRoutes)
 app.use('/verify', otpRoutes);
 app.use('/customers',customerRoutes)
 app.use('/vendors',vendorRoutes)
